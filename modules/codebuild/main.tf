@@ -60,6 +60,11 @@ resource "aws_iam_policy" "codebuild_policy" {
       ],
       "Effect": "Allow",
       "Resource": "${var.ECR_ARN}"
+    },
+    {
+        "Action": "ssm:GetParameters",
+        "Effect": "Allow",
+        "Resource": "${var.SSM_ARN}"
     }
   ]
 }
@@ -103,9 +108,15 @@ resource "aws_codebuild_project" "codebuild" {
     type = "CODEPIPELINE"
     buildspec = <<BUILDSPEC
 version: 0.2
+env:
+  parameter-store:
+    DOCKER_USERNAME: /tf/docker_username
+    DOCKER_PASSWORD: /tf/docker_password
 phases:
   pre_build:
     commands:
+      - echo Logging to Docker Hub...
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)

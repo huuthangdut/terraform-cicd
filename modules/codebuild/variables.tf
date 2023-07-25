@@ -26,6 +26,10 @@ variable "ECR_ARN" {
   type = string
 }
 
+variable "SSM_ARN" {
+  type = string
+}
+
 variable "ARTIFACT_BUCKET_ARN" {
   type = string
 }

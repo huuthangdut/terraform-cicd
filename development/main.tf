@@ -83,6 +83,7 @@ module "code-build" {
   ECR_URL                           = var.ECR_URL
   ECR_ARN                           = var.ECR_ARN
   ARTIFACT_BUCKET_ARN               = module.storage.artifact_bucket_arn
+  SSM_ARN                           = var.SSM_ARN
 }
 
 module "code-pipeline" {

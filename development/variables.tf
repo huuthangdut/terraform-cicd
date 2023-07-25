@@ -35,6 +35,10 @@ variable "ECR_ARN" {
   default = "arn:aws:ecr:us-east-1:207061669504:repository/app-ecr-repository-dev"
 }
 
+variable "SSM_ARN" {
+  default = "arn:aws:ssm:us-east-1:207061669504:parameter/tf/*"
+}
+
 variable "ECS_CONTAINER_PORT" {
   default = 5000
 }
